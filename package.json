@@ -1,5 +1,5 @@
 {
-  "name": "google-map-integration",
+  "name": "google-map-management",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,7 +9,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@react-google-maps/api": "^2.19.3",
+    "react-table": "^7.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
