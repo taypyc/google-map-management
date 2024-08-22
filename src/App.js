@@ -1,23 +1,36 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import MapComponent from './components/MapComponent/MapComponent';
+import ManagementTable from './components/ManagementTable/ManagementTable';
 import './App.css';
 
 function App() {
+  const [mode, setMode] = useState('polygons'); // 'polygons' or 'markers'
+  const [polygons, setPolygons] = useState([]);
+  const [markers, setMarkers] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <div className="map-container">
+        <MapComponent 
+          mode={mode} 
+          polygons={polygons} 
+          setPolygons={setPolygons} 
+          markers={markers} 
+          setMarkers={setMarkers} 
+        />
+      </div>
+      <div className="table-container">
+        <ManagementTable 
+          mode={mode} 
+          polygons={polygons} 
+          setPolygons={setPolygons} 
+          markers={markers} 
+          setMarkers={setMarkers} 
+        />
+        <button onClick={() => setMode(mode === 'polygons' ? 'markers' : 'polygons')}>
+          Switch to {mode === 'polygons' ? 'Marker Management' : 'Polygon Management'}
+        </button>
+      </div>
     </div>
   );
 }
