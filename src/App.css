@@ -1,7 +1,32 @@
 .app-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 100vh;
+}
+
+.tabs-container {
+  display: flex;
+  padding: 10px 0;
+  gap: 20px;
+}
+
+.tab {
+  padding: 10px 0;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+}
+
+.tab.active {
+  border-bottom: 2px solid #3e4970;
+  color: #3e4970;
+  font-weight: bold;
+}
+
+.content-container {
+  display: flex;
+  flex: 1;
 }
 
 .map-container {
@@ -15,7 +40,7 @@
 }
 
 @media only screen and (max-width: 768px) {
-  .app-container {
+  .content-container {
     flex-direction: column;
   }
 

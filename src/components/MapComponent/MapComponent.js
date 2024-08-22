@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Polygon, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -7,15 +7,29 @@ const containerStyle = {
 };
 
 const MapComponent = ({ mode, polygons, setPolygons, markers, setMarkers }) => {
+  const [currentPolygon, setCurrentPolygon] = useState([]);
+
   const mapClickHandler = (event) => {
     const newPoint = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-    
+
     if (mode === 'polygons') {
-      const newPolygon = [...(polygons[polygons.length - 1]?.path || []), newPoint];
-      setPolygons([...polygons.slice(0, polygons.length - 1), { path: newPolygon }]);
+      setCurrentPolygon([...currentPolygon, newPoint]);
     } else {
-      setMarkers([...markers, newPoint]);
+      setMarkers([...markers, { name: `Marker ${markers.length + 1}`, latlng: newPoint }]);
     }
+  };
+
+  const polygonCompleteHandler = () => {
+    setPolygons([...polygons, { name: `Polygon ${polygons.length + 1}`, path: currentPolygon }]);
+    setCurrentPolygon([]);
+  };
+
+  const polygonRightClickHandler = (polygonIndex) => {
+    setPolygons(polygons.filter((_, index) => index !== polygonIndex));
+  };
+
+  const markerRightClickHandler = (markerIndex) => {
+    setMarkers(markers.filter((_, index) => index !== markerIndex));
   };
 
   return (
@@ -25,12 +39,27 @@ const MapComponent = ({ mode, polygons, setPolygons, markers, setMarkers }) => {
         center={{ lat: -3.745, lng: -38.523 }}
         zoom={10}
         onClick={mapClickHandler}
+        onRightClick={mode === 'polygons' && currentPolygon.length > 0 ? polygonCompleteHandler : null}
       >
         {polygons.map((polygon, index) => (
-          <Polygon key={index} paths={polygon.path} />
+          <Polygon
+            key={index}
+            paths={polygon.path}
+            onRightClick={() => polygonRightClickHandler(index)}
+          />
         ))}
+        {currentPolygon.length > 0 && (
+          <Polygon
+            paths={currentPolygon}
+            options={{ fillColor: 'lightblue', strokeColor: 'blue' }}
+          />
+        )}
         {markers.map((marker, index) => (
-          <Marker key={index} position={marker} />
+          <Marker
+            key={index}
+            position={marker.latlng}
+            onRightClick={() => markerRightClickHandler(index)}
+          />
         ))}
       </GoogleMap>
     </LoadScript>

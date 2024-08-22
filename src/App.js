@@ -10,26 +10,39 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="map-container">
-        <MapComponent 
-          mode={mode} 
-          polygons={polygons} 
-          setPolygons={setPolygons} 
-          markers={markers} 
-          setMarkers={setMarkers} 
-        />
-      </div>
-      <div className="table-container">
-        <ManagementTable 
-          mode={mode} 
-          polygons={polygons} 
-          setPolygons={setPolygons} 
-          markers={markers} 
-          setMarkers={setMarkers} 
-        />
-        <button onClick={() => setMode(mode === 'polygons' ? 'markers' : 'polygons')}>
-          Switch to {mode === 'polygons' ? 'Marker Management' : 'Polygon Management'}
-        </button>
+      <div className="content-container">
+        <div className="map-container">
+          <MapComponent 
+            mode={mode} 
+            polygons={polygons} 
+            setPolygons={setPolygons} 
+            markers={markers} 
+            setMarkers={setMarkers} 
+          />
+        </div>
+        <div className="table-container">
+          <div className="tabs-container">
+            <button 
+              className={`tab ${mode === 'polygons' ? 'active' : ''}`} 
+              onClick={() => setMode('polygons')}
+            >
+              Polygons management
+            </button>
+            <button 
+              className={`tab ${mode === 'markers' ? 'active' : ''}`} 
+              onClick={() => setMode('markers')}
+            >
+              Markers management
+            </button>
+          </div>
+          <ManagementTable 
+            mode={mode} 
+            polygons={polygons} 
+            setPolygons={setPolygons} 
+            markers={markers} 
+            setMarkers={setMarkers} 
+          />
+        </div>
       </div>
     </div>
   );
